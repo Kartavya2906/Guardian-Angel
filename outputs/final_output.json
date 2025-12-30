@@ -1,0 +1,15 @@
+{
+    "repo": "https://github.com/psf/requests.git",
+    "commit": "70298332899f25826e35e42f8d83425124f755a5",
+    "behavior_score": 0,
+    "behavior_triggers": {},
+    "crypto_analysis": {
+        "avg_entropy": 4.776,
+        "high_entropy_lines": 3,
+        "base64_payload_count": 0
+    },
+    "risk": {
+        "risk": "Low",
+        "confidence": 0.6
+    }
+}

@@ -1,0 +1,36 @@
+############################
+# Python cache & bytecode
+############################
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+############################
+# Virtual environments
+############################
+venv/
+.env/
+
+############################
+# Azure local-only files
+############################
+azure_guardian/local.settings.json
+azure_guardian/.python_packages/
+
+############################
+# ML model files (generated)
+############################
+models/*.pkl
+
+############################
+# External cloned repos
+############################
+repo_clone/
+
+############################
+# OS / editor junk
+############################
+.DS_Store
+Thumbs.db
+

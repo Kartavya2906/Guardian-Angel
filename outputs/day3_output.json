@@ -1,0 +1,17 @@
+{
+    "repo": "https://github.com/psf/requests.git",
+    "commit_hash": "70298332899f25826e35e42f8d83425124f755a5",
+    "added_lines_count": 3,
+    "behavior_score": 0,
+    "behavior_triggers": {},
+    "crypto_analysis": {
+        "avg_entropy": 4.776,
+        "high_entropy_lines": 3,
+        "base64_payload_count": 3,
+        "suspicious_payloads": [
+            "f443b600d91635bebf5b0d9ebc620189c0d6fba5",
+            "f443b600d91635bebf5b0d9ebc620189c0d6fba5",
+            "f443b600d91635bebf5b0d9ebc620189c0d6fba5"
+        ]
+    }
+}
