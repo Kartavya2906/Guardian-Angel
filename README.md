@@ -22,7 +22,6 @@ Guardian Angel uses behavior-based analysis to proactively identify supply-chain
 
 ---
 
-## High-Level Architecture
 
 ## High-Level Architecture
 
@@ -40,7 +39,7 @@ Cryptanalysis & Obfuscation Scan
 Risk Scoring Engine
         ↓
 Alerts & Dashboard
-
+```
 
 
 ---
