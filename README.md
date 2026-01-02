@@ -24,13 +24,23 @@ Guardian Angel uses behavior-based analysis to proactively identify supply-chain
 
 ## High-Level Architecture
 
+## High-Level Architecture
+
+```text
 GitHub Repository
- → Commit & Release Monitor
- → Static Code Analysis
- → Behavioral Anomaly Detection
- → Cryptanalysis & Obfuscation Scan
- → Risk Scoring Engine
- → Alerts & Dashboard
+        ↓
+Commit & Release Monitor
+        ↓
+Static Code Analysis
+        ↓
+Behavioral Anomaly Detection
+        ↓
+Cryptanalysis & Obfuscation Scan
+        ↓
+Risk Scoring Engine
+        ↓
+Alerts & Dashboard
+
 
 
 ---
