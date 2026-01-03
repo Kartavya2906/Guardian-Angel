@@ -14,17 +14,21 @@ CONFIG_PATH = os.path.join(BASE_DIR, "config", "config.yaml")
 RAW_PATH = os.path.join(BASE_DIR, "data", "raw", "added_code.txt")
 OUTPUT_PATH = os.path.join(BASE_DIR, "outputs", "final_output.json")
 
-def main(return_json=False):
+def main(return_json=False,override_repo=None):
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
 
-    repo_cfg = config["github"]
+        repo_cfg = config["github"]
 
-    repo = clone_or_pull_repo(
-        repo_cfg["repo_url"],
-        repo_cfg["local_path"],
-        repo_cfg["branch"]
-    )
+        repo_url = override_repo if override_repo else repo_cfg["repo_url"]
+        local_path = repo_cfg["local_path"]
+        branch = repo_cfg["branch"]
+
+        repo = clone_or_pull_repo(
+        repo_url,
+        local_path,
+        branch
+        )
 
     added = extract_added_lines(repo)
 
@@ -55,6 +59,24 @@ def main(return_json=False):
         json.dump(output, f, indent=4)
 
     print(json.dumps(output, indent=4))
+
+def explain_result(behavior_score, crypto, risk):
+    reasons = []
+
+    if behavior_score > 5:
+        reasons.append("Suspicious behavioral patterns detected")
+
+    if crypto["avg_entropy"] > 4.8:
+        reasons.append("High entropy indicates possible encrypted payload")
+
+    if crypto["base64_payload_count"] > 0:
+        reasons.append("Encoded payload detected in code changes")
+
+    if not reasons:
+        reasons.append("No anomalous behavior detected")
+
+    return reasons
+
 
 if __name__ == "__main__":
     main()

@@ -13,12 +13,23 @@ app = func.FunctionApp()
 @app.route(route="analyze_repo", auth_level=func.AuthLevel.ANONYMOUS)
 def analyze_repo(req: func.HttpRequest) -> func.HttpResponse:
     try:
-        result = guardian_main(return_json=True)
+        repo_url = req.params.get("repo")
+
+        result = guardian_main(
+            return_json=True,
+            override_repo=repo_url
+        )
+
         return func.HttpResponse(
             json.dumps(result, indent=4),
             mimetype="application/json",
             status_code=200
         )
+
     except Exception as e:
-        return func.HttpResponse(str(e), status_code=500)
+        return func.HttpResponse(
+            f"Error: {str(e)}",
+            status_code=500
+        )
+
 
