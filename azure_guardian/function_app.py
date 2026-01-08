@@ -14,6 +14,8 @@ app = func.FunctionApp()
 def analyze_repo(req: func.HttpRequest) -> func.HttpResponse:
     try:
         repo_url = req.params.get("repo")
+        if not repo_url:
+            raise ValueError("Missing repo parameter")
 
         result = guardian_main(
             return_json=True,
@@ -21,15 +23,17 @@ def analyze_repo(req: func.HttpRequest) -> func.HttpResponse:
         )
 
         return func.HttpResponse(
-            json.dumps(result, indent=4),
+            json.dumps(result),
             mimetype="application/json",
             status_code=200
         )
 
     except Exception as e:
         return func.HttpResponse(
-            f"Error: {str(e)}",
+            json.dumps({
+                "error": str(e)
+            }),
+            mimetype="application/json",
             status_code=500
         )
-
 
