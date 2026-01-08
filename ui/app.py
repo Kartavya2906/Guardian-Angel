@@ -1,85 +1,51 @@
 import streamlit as st
 import requests
-import re
 
 API_URL = "http://localhost:7071/api/analyze_repo"
 
 st.set_page_config(
     page_title="Guardian Angel X-Crypto",
-    page_icon="🛡",
     layout="centered"
 )
 
-# ---------------- Header ----------------
 st.title("🛡 Guardian Angel X-Crypto")
-st.caption("Preventing supply-chain attacks before code reaches production")
+st.subheader("GitHub Supply Chain Security Scanner")
 
-st.markdown("---")
+# ---------- Session State ----------
+if "result" not in st.session_state:
+    st.session_state.result = None
 
-# ---------------- Input ----------------
+# ---------- Input ----------
 repo_url = st.text_input(
-    "GitHub Repository URL",
-    placeholder="https://github.com/owner/repository"
+    "Enter GitHub Repository URL",
+    placeholder="https://github.com/psf/requests"
 )
 
-analyze_btn = st.button("🔍 Analyze Latest Commit")
+# ---------- Button ----------
+if st.button("🔍 Analyze GitHub Repo"):
+    if not repo_url.strip():
+        st.error("Please enter a GitHub repository URL")
+    else:
+        with st.spinner("Analyzing repository..."):
+            try:
+                response = requests.get(
+                    API_URL,
+                    params={"repo": repo_url},
+                    timeout=120
+                )
 
-# ---------------- Validation ----------------
-def is_valid_github_url(url):
-    pattern = r"^https:\/\/github\.com\/[^\/]+\/[^\/]+$"
-    return re.match(pattern, url)
+                data = response.json()
 
-# ---------------- Action ----------------
-if analyze_btn:
-    if not repo_url:
-        st.error("Please enter a GitHub repository URL.")
-        st.stop()
+                if "error" in data:
+                    st.error(data["error"])
+                else:
+                    st.session_state.result = data
 
-    if not is_valid_github_url(repo_url):
-        st.error("Invalid GitHub repository URL format.")
-        st.stop()
+            except Exception as e:
+                st.error(f"Engine unreachable: {e}")
 
-    with st.spinner("Analyzing repository for supply-chain risks..."):
-        try:
-            response = requests.get(
-                API_URL,
-                params={"repo": repo_url},
-                timeout=30
-            )
-            data = response.json()
-        except Exception as e:
-            st.error(f"Failed to contact analysis engine: {e}")
-            st.stop()
-
-    st.markdown("---")
-
-    # ---------------- Risk Summary ----------------
-    risk = data["risk"]["risk"]
-    confidence = data["risk"]["confidence"]
-
-    color = {
-        "Low": "🟢",
-        "Medium": "🟡",
-        "High": "🔴"
-    }[risk]
-
-    st.subheader(f"{color} Risk Level: {risk}")
-    st.caption(f"Confidence: {confidence}")
-
-    col1, col2 = st.columns(2)
-    col1.metric("Behavior Score", data["behavior_score"])
-    col2.metric("Average Entropy", data["crypto_analysis"]["avg_entropy"])
-
-    # ---------------- Explanation ----------------
-    st.markdown("### 🧠 Why this result?")
-    for reason in data.get("explanation", ["No anomalous activity detected"]):
-        st.success(reason)
-
-    # ---------------- Technical Details ----------------
-    with st.expander("🔎 Show technical details"):
-        st.json(data)
-
-# ---------------- Footer ----------------
-st.markdown("---")
-st.caption("Guardian Angel X-Crypto • Industrial DevSecOps Security Tool")
+# ---------- Display Result ----------
+if st.session_state.result:
+    st.success("Analysis complete")
+    st.json(st.session_state.result)
 

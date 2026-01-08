@@ -1,5 +1,4 @@
 github:
-  repo_url: "https://github.com/psf/requests.git"
-  branch: "main"
-  local_path: "./repo_clone"
+  local_path: repo_clone
+  
 

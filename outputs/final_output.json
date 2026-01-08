@@ -4,12 +4,22 @@
     "behavior_score": 0,
     "behavior_triggers": {},
     "crypto_analysis": {
-        "avg_entropy": 4.776,
-        "high_entropy_lines": 3,
-        "base64_payload_count": 0
+        "avg_entropy": 4.693,
+        "entropy_variance": 0.009,
+        "high_entropy_lines": 9,
+        "base64_payload_count": 0,
+        "max_encoded_length": 0
     },
+    "entropy_delta": 0.0,
     "risk": {
         "risk": "Low",
-        "confidence": 0.6
-    }
+        "confidence": 0.61
+    },
+    "explanation": [
+        "No anomalous behavior detected",
+        "Detected languages risk level: High",
+        "Repository activity level: Low"
+    ],
+    "language_risk": "High",
+    "repo_activity": "Low"
 }
